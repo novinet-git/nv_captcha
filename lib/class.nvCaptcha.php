@@ -6,21 +6,23 @@
     {
     }
 
-    public function getCaptcha()
+    public function getCaptcha($aOptions = array())
     {
-        $addon = rex_addon::get('nv_captcha');
-        require_once($addon->getAssetsUrl('vendor/securimage/securimage.php'));
+        require_once('./assets/addons/nv_captcha/vendor/securimage/securimage.php');
         $oSecurimage = new SecurImage;
-        $sHtml = $oSecurimage->getCaptchaHtml();
+        $aOptions["input_text"] = "Bitte den abgebildeten Code eingeben *";
+        $aOptions["input_attributes"] = array("class" => "form-control mb-3");
+        $aOptions["disable_flash_fallback"] = true;
+
+        $sHtml = $oSecurimage->getCaptchaHtml($aOptions);
         return $sHtml;
     }
 
     public function isSpam()
     {
-        $addon = rex_addon::get('nv_captcha');
-        require_once($addon->getAssetsUrl('vendor/securimage/securimage.php'));
-        $image = new Securimage();
-        if ($image->check($_POST['captcha_code']) == true) {
+        require_once('./assets/addons/nv_captcha/vendor/securimage/securimage.php');
+        $oSecurimage = new SecurImage();
+        if ($oSecurimage->check($_POST['captcha_code']) == true) {
             return false;
         }
         return true;
