@@ -6,9 +6,9 @@
     {
     }
 
-    public function getCaptcha($aOptions = array())
+    public static function getCaptcha($aOptions = array())
     {
-        require_once('./assets/addons/nv_captcha/vendor/securimage/securimage.php');
+        require_once(rex_path::assets('addons/nv_captcha/vendor/securimage/securimage.php'));
         $oSecurimage = new SecurImage;
         $aOptions["input_text"] = "Bitte den abgebildeten Code eingeben *";
         $aOptions["input_attributes"] = array("class" => "form-control mb-3");
@@ -18,9 +18,9 @@
         return $sHtml;
     }
 
-    public function isSpam()
+    public static function isSpam()
     {
-        require_once('./assets/addons/nv_captcha/vendor/securimage/securimage.php');
+        require_once(rex_path::assets('addons/nv_captcha/vendor/securimage/securimage.php'));
         $oSecurimage = new SecurImage();
         if ($oSecurimage->check($_POST['captcha_code']) == true) {
             return false;
